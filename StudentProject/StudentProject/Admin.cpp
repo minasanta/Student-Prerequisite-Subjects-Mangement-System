@@ -48,38 +48,27 @@ void Admin::addNewStudent(map<int,Student>& students, map<int,Course>& courses) 
 	{
 		cout << "Enter the code of course #" << i + 1 << " : ";
 		int code; cin >> code;
-		bool found = false;
-		for (int i = 0; i < courses.size(); i++)
-		{
-			if (courses[i].getCourseCode() == code) {
-				finishedCourses.push_back(courses[i]);
-				found = true;
-				break;
-			}
-		}
-		if (!found)
+
+		if (courses.find(code) == courses.end())
 		{
 			cout << "There's no course like that, please try again \n"; i--;
 		}
+		else
+			finishedCourses.push_back(courses[code]);
 	}
 	cout << "How many courses this students in progress : ";cin >> n;
 	for (int i = 0; i < n; i++)
 	{
 		cout << "Enter the code of course #" << i + 1 << " : ";
 		int code; cin >> code;
-		bool found = false;
-		for (int i = 0; i < courses.size(); i++)
-		{
-			if (courses[i].getCourseCode() == code) {
-				inProgressCourses.push_back(courses[i]);
-				courses[i].increaseNumOfStud();
-				found = true;
-				break;
-			}
-		}
-		if (!found)
+		if (courses.find(code) == courses.end())
 		{
 			cout << "There's no course like that, please try again \n"; i--;
+		}
+		else
+		{
+			inProgressCourses.push_back(courses[code]);
+			courses[code].increaseNumOfStud();
 		}
 	}
 	students[id] = Student(name, id, password, finishedCourses, inProgressCourses, academicYear);
